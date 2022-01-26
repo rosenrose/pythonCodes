@@ -1,0 +1,42 @@
+{
+    "Server1": {
+        "bucket": "rosenrose",
+        "path": "amazonrosenrose:rosenrose/doujin",
+        "url": "https://rosenrose.s3.amazonaws.com",
+        "site": {
+        },
+        "size": 0
+    },
+    "Server2": {
+        "bucket": "franch4569",
+        "path": "amazonfranch4569:franch4569/doujin",
+        "url": "https://franch4569.s3.amazonaws.com",
+        "site": {
+        },
+        "size": 0
+    },
+    "Server3": {
+        "bucket": "kjw4569",
+        "path": "amazonkjw4569:kjw4569/doujin",
+        "url": "https://kjw4569.s3.amazonaws.com",
+        "site": {
+        },
+        "size": 0
+    },
+    "Server4": {
+        "bucket": "franch122",
+        "path": "amazonfranch122:franch122/doujin",
+        "url": "https://franch122.s3.amazonaws.com",
+        "site": {
+        },
+        "size": 0
+    },
+    "Server5": {
+        "bucket": "kjw122",
+        "path": "amazonkjw122:kjw122/doujin",
+        "url": "https://kjw122.s3.amazonaws.com",
+        "site": {
+        },
+        "size": 0
+    }
+}
