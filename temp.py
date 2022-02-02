@@ -5,95 +5,60 @@ import re
 import pyperclip
 from pathlib import Path
 from functools import reduce
+from PIL import Image, ImageChops
 
-path = Path("d:/git/djmax/list.json")
+path = Path("d:/git/djmax/ignore/Sprite")
 
-# data = json.loads(path.read_text(encoding="utf-8"))
-# songs = reduce(lambda x,y: [*x, *y], data["songs"].values())
-# # print(len(songs))
-# regex = re.compile(r"[^[]+")
+# img = Image.open(path / "Outgame_7.png")
+img = Image.open(r"C:\Users\crazy\Pictures\Djmax Respect V\Djmax Respect V Screenshot 2022.02.01 - 12.47.50.82.png")
 
-# notes = pyperclip.paste().replace("Elastic Star","Elastic STAR").replace("Super lovely","Super Lovely").replace("Running Girl","Running girl").replace("Nine point eight","Nine Point Eight").replace("I want You ~반짝 반짝 Sunshine~","I want You ~반짝★반짝 Sunshine~").splitlines()
+def itemCrop(x, y, w, h, cols, rows, pt, colgap = 2, rowcap = 2, colsFirst = False):
+    if colsFirst:
+        for j in range(rows):
+            for i in range(cols):
+                img.crop((x + (i * w) + (i * colgap), y + (j * h) + (j * rowcap), x + (i * w) + (i * colgap) + w, y + (j * h) + (j * rowcap) + h)).save(path / f"{pt}_{j+1:02}_{i+1:02}.png")
+    else:
+        for i in range(cols):
+            for j in range(rows):
+                img.crop((x + (i * w) + (i * colgap), y + (j * h) + (j * rowcap), x + (i * w) + (i * colgap) + w, y + (j * h) + (j * rowcap) + h)).save(path / f"{pt}_{i+1:02}_{j+1:02}.png")
 
-# # if len(notes) % 18 == 0:
-# #     print(len(notes), len(notes)//18)
+plateWidth, plateHeight = 250, 60
+# itemCrop(1851, 39, plateWidth, plateHeight, 2, 8, "plate/pt1")
+# itemCrop(2512, 20, plateWidth, plateHeight, 6, 65, "plate/pt2")
+# itemCrop(4024, 3988, plateWidth, plateHeight, 3, 1, "plate/pt3")
+# itemCrop(101, 18, plateWidth, plateHeight, 1, 1, "plate/pt4")
+# itemCrop(365, 20, plateWidth, plateHeight, 1, 1, "plate/pt5")
+# itemCrop(2119, 634, plateWidth, plateHeight, 1, 1, "plate/pt6")
+# itemCrop(2218, 1029, plateWidth, plateHeight, 1, 7, "plate/pt7")
 
-# notes = [[j for j in notes[i*18:(i+1)*18]] for i in range(442)]
+iconWidth, iconHeight = 60, 60
+# itemCrop(4186, 32, iconWidth, iconHeight, 1, 22, "icon/pt1")
+# itemCrop(4186, 1520, iconWidth, iconHeight, 1, 36, "icon/pt2")
+# itemCrop(4257, 60, iconWidth, iconHeight, 1, 22, "icon/pt3")
+# itemCrop(4257, 1858, iconWidth, iconHeight, 1, 27, "icon/pt4")
+# itemCrop(4366, 3016, iconWidth, iconHeight, 1, 13, "icon/pt5")
+# itemCrop(2442, 2187, iconWidth, iconHeight, 1, 3, "icon/pt6")
+# itemCrop(1785, 47, iconWidth, iconHeight, 1, 3, "icon/pt7")
+# itemCrop(737, 859, iconWidth, iconHeight, 1, 1, "icon/pt8")
+# itemCrop(744, 1983, iconWidth, iconHeight, 1, 2, "icon/pt9")
+# itemCrop(4118, 2946, iconWidth, iconHeight, 1, 1, "icon/pt10")
+# itemCrop(4116, 3126, iconWidth, iconHeight, 1, 1, "icon/pt11")
+# itemCrop(4116, 3218, iconWidth, iconHeight, 1, 1, "icon/pt12")
+# itemCrop(4117, 3447, iconWidth, iconHeight, 1, 1, "icon/pt13")
 
-# # print(regex.match(notes[1][1])[0])
+ngWidth, ngHeight = 50, 50
+# itemCrop(4366, 40, ngWidth, ngHeight, 1, 49, "notegear/pt1")
+# itemCrop(4428, 8, ngWidth, ngHeight, 1, 43, "notegear/pt2")
+# itemCrop(4428, 2296, ngWidth, ngHeight, 1, 24, "notegear/pt3")
+# itemCrop(2457, 4, ngWidth, ngHeight, 1, 2, "notegear/pt4")
+# itemCrop(2460, 1735, ngWidth, ngHeight, 1, 1, "notegear/pt5")
+# itemCrop(2460, 1823, ngWidth, ngHeight, 1, 1, "notegear/pt6")
+# itemCrop(2460, 1911, ngWidth, ngHeight, 1, 1, "notegear/pt7")
+# itemCrop(2460, 1999, ngWidth, ngHeight, 1, 1, "notegear/pt8")
+# itemCrop(2460, 2087, ngWidth, ngHeight, 1, 1, "notegear/pt9")
+# itemCrop(4499, 3638, ngWidth, ngHeight, 1, 1, "notegear/pt10")
+# itemCrop(4134, 3512, ngWidth, ngHeight, 1, 2, "notegear/pt11")
+# itemCrop(4133, 3621, ngWidth, ngHeight, 1, 2, "notegear/pt12")
 
-# noteList = [
-#     {
-#         "title": regex.match(note[1])[0],
-#         "note": {
-#             "4B": {
-#                 "NM": note[2] if note[2] == "-" else int(note[2]),
-#                 "HD": note[3] if note[3] == "-" else int(note[3]),
-#                 "MX": note[4] if note[4] == "-" else int(note[4]),
-#                 "SC": note[5] if note[5] == "-" else int(note[5])
-#             },
-#             "5B": {
-#                 "NM": note[6] if note[6] == "-" else int(note[6]),
-#                 "HD": note[7] if note[7] == "-" else int(note[7]),
-#                 "MX": note[8] if note[8] == "-" else int(note[8]),
-#                 "SC": note[9] if note[9] == "-" else int(note[9])
-#             },
-#             "6B": {
-#                 "NM": note[10] if note[10] == "-" else int(note[10]),
-#                 "HD": note[11] if note[11] == "-" else int(note[11]),
-#                 "MX": note[12] if note[12] == "-" else int(note[12]),
-#                 "SC": note[13] if note[13] == "-" else int(note[13])
-#             },
-#             "8B": {
-#                 "NM": note[14] if note[14] == "-" else int(note[14]),
-#                 "HD": note[15] if note[15] == "-" else int(note[15]),
-#                 "MX": note[16] if note[16] == "-" else int(note[16]),
-#                 "SC": note[17] if note[17] == "-" else int(note[17])
-#             },
-#         }
-#     }
-#     for note in notes
-# ]
-# # print(noteList[-1])
-
-# a = set([i["title"] for i in noteList]) - set([i["title"] for i in songs])
-# # print(*a,sep="\n")
-# i = 0
-# for song in songs:
-#     for note in noteList:
-#         if song["title"] == note["title"]:
-#             song["note"] = note["note"]
-#             for btn in song["level"]:
-#                 for rank in list(note["note"][btn].keys()):
-#                     if rank not in song["level"][btn]:
-#                         # print(rank, note["note"][btn][rank])
-#                         del note["note"][btn][rank]
-#                 if not song["level"][btn].keys() == note["note"][btn].keys():
-#                     print("!!!!", song["title"])
-#             break
-#     else:
-#         print("???")
-
-# path.with_stem("list_").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-data = json.loads(path.read_text(encoding="utf-8"))
-songs = reduce(lambda x,y: [*x, *y], data["songs"].values())
-for song in songs:
-    for btn in song["level"]:
-        for rank in song["level"][btn]:
-            if rank not in song["note"][btn]:
-                print("!!!!", song["title"])
-    for btn in song["note"]:
-        for rank in song["note"][btn]:
-            if rank not in song["level"][btn]:
-                print("?????", song["title"])
-    # for category in song["artist"]:
-    #     if category == "visualize":
-    #         if isinstance(song["artist"][category], list):
-    #             print(song["title"])
-    #         elif isinstance(song["artist"][category], dict):
-    #             for subcat in song["artist"][category]:
-    #                 if not isinstance(song["artist"][category][subcat], str):
-    #                     print(song["title"])
-    #     else:
-    #         if not isinstance(song["artist"][category], str):
-    #             print(song["title"])
+commentWidth, commentHeight = 250, 60
+itemCrop(426, 396, commentWidth, commentHeight, 4, 5, "comment/pt7", 16, 16, True)

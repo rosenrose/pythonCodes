@@ -7,10 +7,11 @@ import requests
 
 urlReg = re.compile(r"https://www.youtube.com/watch\?v=([a-zA-Z0-9_\-]{11})")
 lengthReg = re.compile(r"PT(\d+)M((\d+)S)?")
+key = open("youtubeAPI.txt",encoding="utf-8").read()
 
 def getDuration(url):
     id = urlReg.search(url)[1]
-    result = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key=AIzaSyDjjx-wgYbQK-hua00Wk9C1nCiiMSS8VDI&part=contentDetails")
+    result = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={key}&part=contentDetails")
     duration = json.loads(result.content)["items"][0]["contentDetails"]["duration"]
     duration = lengthReg.search(duration)
     return int(duration[1])*60 + (int(duration[3]) if duration[2] else 0)
