@@ -7,7 +7,7 @@ import requests
 
 urlReg = re.compile(r"https://www.youtube.com/watch\?v=([a-zA-Z0-9_\-]{11})")
 lengthReg = re.compile(r"PT(\d+)M((\d+)S)?")
-key = open("youtubeAPI.txt",encoding="utf-8").read()
+key = open("youtubeAPI.txt", encoding="utf-8").read()
 
 def getDuration(url):
     id = urlReg.search(url)[1]

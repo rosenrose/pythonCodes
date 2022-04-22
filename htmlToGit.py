@@ -11,7 +11,7 @@ from selenium import webdriver
 from replaceSpecialCh import replaceSpecialCh
 from glob import glob
 
-gitUrl = "https://github.com/rosenrose/rosenrose.github.io/commits/master"
+gitUrl = "https://github.com/rosenrose/touhou/commits/master"
 path = "G:/doujin/"
 defaultPath = "C:/users/crazy/pictures/python"
 gitPath = "D:/Touhou/rosenrose.github.io"
@@ -113,7 +113,7 @@ def elapsedTime(msg,function,*args,**kws):
 
 def gitBuild(msg):
     input("build?: ")
-    elapsedTime("build",subprocess.run,["jekyll","build"],cwd=gitPath,encoding="utf-8")
+    elapsedTime("build",subprocess.run,["jekyll.bat","build"],cwd=gitPath,encoding="utf-8")
     elapsedTime("tag paginate",subprocess.run,["python","tagPagination.py"],cwd=defaultPath,encoding="utf-8")
     gitCommand(msg)
 
@@ -124,17 +124,16 @@ def gitCommand(msg):
     subprocess.run(["git","commit","-m",msg],cwd=gitPath,encoding="utf-8")
     elapsedTime("commit",subprocess.run,["git","commit","-v","-m",msg],cwd=gitPath+"/_site",encoding="utf-8")
 
-    subprocess.run(["git","push","-v"],cwd=gitPath,encoding="utf-8")
     elapsedTime("push",subprocess.run,["git","push","-v"],cwd=gitPath+"/_site",encoding="utf-8")
 
     if "sleep" in sys.argv[1]:
         subprocess.run(["timeout","/t","30",">","NUL"],encoding="utf-8")
         subprocess.run(["shutdown","-h"],encoding="utf-8")
     
-    driver = webdriver.Chrome("D:/Install/chromedriver.exe")
-    driver.get(gitUrl)
-    messagebox.showinfo("done")
-    input()
+    # driver = webdriver.Chrome("D:/Install/chromedriver.exe")
+    # driver.get(gitUrl)
+    # messagebox.showinfo("done")
+    # input()
 
 def htmlToGit(dirList):
     count = 0

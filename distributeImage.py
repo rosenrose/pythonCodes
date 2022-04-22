@@ -9,14 +9,14 @@ from replaceSpecialCh import replaceSpecialCh
 from getFolderSize import folderSize
 from glob import glob
 
-path = "c:/users/crazy/pictures/python"
-doujinPath = "d:/touhou/doujin"
-postPath = "c:/users/crazy/pictures/rosenrose.github.io/_posts"
+path = "d:/git/python"
+doujinPath = "g:/doujin"
+postPath = "d:/touhou/rosenrose.github.io/_posts"
 folderList = ["dcinside","enlsparker","ghap","ghapgithub","lilybin","nonicname","ruliweb","rumia0528","seiga22","sniperriflesr",
                 "sunmism","touhoustory"]
 
 def writeLog(msg):
-    with open("c:/users/crazy/pictures/python/distributeImage.log","a",encoding="utf-8-sig") as a:
+    with open("d:/git/python/distributeImage.log","a",encoding="utf-8-sig") as a:
         a.write(f"{datetime.datetime.now():%Y.%m.%d %H:%M} - ")
         a.write(msg)
 
@@ -55,7 +55,7 @@ def addDB(site,code):
         writeLog(f"{site} {code} go to {server}\n")
 
         with open(os.path.join(path,"imgServerDB.json"),"w",encoding="utf-8") as f:
-            json.dump(jsonDic,f,ensure_ascii=False,indent=4)
+            json.dump(jsonDic,f,ensure_ascii=False,indent=2)
 
     print(f""" {{
         "server": "{server}",
@@ -173,7 +173,7 @@ def subDB(site,code):
     print(f"delete {site} {code} in {server}")
 
     with open(os.path.join(path,"imgServerDB.json"),"w",encoding="utf-8") as f:
-        json.dump(jsonDic,f,ensure_ascii=False,indent=4)
+        json.dump(jsonDic,f,ensure_ascii=False,indent=2)
 
 def checkSync():
     with open(os.path.join(path,"imgServerDB.json"),encoding="utf-8") as f:

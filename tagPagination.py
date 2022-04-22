@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-path = Path("C:/users/crazy/pictures/rosenrose.github.io/_site/tags")
+path = Path("D:/Touhou/rosenrose.github.io/_site/tags")
 paginate = 30
 
 for dir in [i for i in path.iterdir() if i.is_dir()]:
@@ -16,7 +16,7 @@ for dir in [i for i in path.iterdir() if i.is_dir()]:
         postLink = []
         postImg = []
 
-        for i in template.find_all("li",class_="post-item post "):
+        for i in template.find_all("li",class_="post-item post"):
             postLink.append(i.extract())
         for i in template.find_all("div",class_="post-image"):
             postImg.append(i.extract())
@@ -49,7 +49,7 @@ for dir in [i for i in path.iterdir() if i.is_dir()]:
             script.string = f"""
                 function movePage() {{
                 var pageNum = document.getElementById("pageNumInput").value;
-                location.href = "/tags/{dir.name}/page"+pageNum
+                location.href = "/touhou/tags/{dir.name}/page"+pageNum
             }}"""
             pageMover.append(script)
             temp.find("div",class_="container",role="main").find("div",class_=re.compile("col*")).append(pageMover)
@@ -60,16 +60,16 @@ for dir in [i for i in path.iterdir() if i.is_dir()]:
 
             if pageNum > 3:
                 home = soup.new_tag("li",attrs={"class":"home"})
-                a = soup.new_tag("a",href=f"/tags/{dir.name}/")
+                a = soup.new_tag("a",href=f"/touhou/tags/{dir.name}/")
                 a.string = "← 처음"
                 home.append(a)
                 pager.append(home)
             for i in range(max(pageNum-2,1),pageNum):
                 li = soup.new_tag("li")
                 if i==1:
-                    a = soup.new_tag("a",href=f"/tags/{dir.name}/")
+                    a = soup.new_tag("a",href=f"/touhou/tags/{dir.name}/")
                 else:    
-                    a = soup.new_tag("a",href=f"/tags/{dir.name}/page{i}")
+                    a = soup.new_tag("a",href=f"/touhou/tags/{dir.name}/page{i}")
                 a.string = str(i)
                 li.append(a)
                 pager.append(li)
@@ -78,13 +78,13 @@ for dir in [i for i in path.iterdir() if i.is_dir()]:
             pager.append(li)
             for i in range(pageNum+1,min(pageNum+3,pages+1)):
                 li = soup.new_tag("li")
-                a = soup.new_tag("a",href=f"/tags/{dir.name}/page{i}")
+                a = soup.new_tag("a",href=f"/touhou/tags/{dir.name}/page{i}")
                 a.string = str(i)
                 li.append(a)
                 pager.append(li)
             if pageNum < pages-2:
                 end = soup.new_tag("li",attrs={"class":"end"})
-                a = soup.new_tag("a",href=f"/tags/{dir.name}/page{pages}/")
+                a = soup.new_tag("a",href=f"/touhou/tags/{dir.name}/page{pages}/")
                 a.string = f"끝({pages}) →"
                 end.append(a)
                 pager.append(end)

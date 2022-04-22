@@ -9,32 +9,67 @@ arg2 = sys.argv[2] if len(sys.argv) > 2 else ""
 
 if sys.argv[1] == "crop":
     if arg2 == "mv":
-        width,height = 230,130
-        img1 = Image.open(path/"MvThumbnails_8.png")
-        img2 = Image.open(path/"MvThumbnails_9.png")
+        width, height = 230, 130
+        img1 = Image.open(path / "MvThumbnails_9.png")
+        img2 = Image.open(path / "MvThumbnails_10.png")
+        (path / "mvthumb1").mkdir(exist_ok=True)
+        (path / "mvthumb2").mkdir(exist_ok=True)
         for i in range(31):
-            for j in range(9 if i<8 else 14 if i<9 else 17):
-                img1.crop((0+j*width+j, 36+i*height+i, 0+j*width+width+j, 36+i*height+height+i)).save(path/f"mvthumb1/{i+1:02}_{j+1:02}.png")
-            for j in range(12 if i<8 else 13 if i<9 else 17):
-                img2.crop((0 + (j * width) + (j * 2), 6 + (i * height) + (i * 2), 0 + (j * width) + (j * 2) + width, 6 + (i * height) + (i * 2) + height)).save(path/f"mvthumb2/{i+1:02}_{j+1:02}.png")
+            for j in range(12 if i < 8 else 13 if i < 9 else 17):
+                img1.crop(
+                    (
+                        0 + (j * width) + (j * 2),
+                        6 + (i * height) + (i * 2),
+                        0 + (j * width) + (j * 2) + width,
+                        6 + (i * height) + (i * 2) + height,
+                    )
+                ).save(path / f"mvthumb1/{i+1:02}_{j+1:02}.png")
+            for j in range(12 if i < 6 else 13 if i < 9 else 17):
+                img2.crop(
+                    (
+                        0 + j * width + j,
+                        36 + i * height + i,
+                        0 + j * width + width + j,
+                        36 + i * height + height + i,
+                    )
+                ).save(path / f"mvthumb2/{i+1:02}_{j+1:02}.png")
     elif arg2 == "song":
         width = height = 120
-        img1 = Image.open(path/"CommonThumbnails_8.png")
-        img2 = Image.open(path/"CommonThumbnails_9.png")
-        (path/"songthumb1").mkdir(exist_ok=True)
-        (path/"songthumb2").mkdir(exist_ok=True)
+        img1 = Image.open(path / "CommonThumbnails_9.png")
+        img2 = Image.open(path / "CommonThumbnails_10.png")
+        (path / "songthumb1").mkdir(exist_ok=True)
+        (path / "songthumb2").mkdir(exist_ok=True)
         for i in range(33):
-            for j in range(8 if i<10 else 9 if i<25 else 33):
-                img1.crop((0+j*width+j, 104+i*height+i, 0+j*width+width+j, 104+i*height+height+i)).save(path/f"songthumb1/{i+1:02}_{j+1:02}.png")
+            for j in range(8 if i < 10 else 9 if i < 24 else 33):
+                img1.crop(
+                    (
+                        0 + (j * width) + (j * 2),
+                        72 + (i * height) + (i * 2),
+                        0 + (j * width) + (j * 2) + width,
+                        72 + (i * height) + (i * 2) + height,
+                    )
+                ).save(path / f"songthumb1/{i+1:02}_{j+1:02}.png")
         for i in range(33):
-            for j in range(8 if i<10 else 9 if i<24 else 33):
-                img2.crop((0 + (j * width) + (j * 2), 72 + (i*height) + (i * 2), 0 + (j * width) + (j * 2) + width, 72 + (i * height) + (i * 2) + height)).save(path/f"songthumb2/{i+1:02}_{j+1:02}.png")
+            for j in range(8 if i < 8 else 9 if i < 24 else 33):
+                img2.crop(
+                    (
+                        0 + j * width + j,
+                        104 + i * height + i,
+                        0 + j * width + width + j,
+                        104 + i * height + height + i,
+                    )
+                ).save(path / f"songthumb2/{i+1:02}_{j+1:02}.png")
 
 elif sys.argv[1] == "black":
-    black = [(j.filename, k) for j in [Image.open(i) for i in (path/"thumb2").iterdir()] if (k:=j.getcolors()) and len(k)<5]
+    black = [
+        (j.filename, k)
+        for j in [Image.open(i) for i in (path / "thumb2").iterdir()]
+        if (k := j.getcolors()) and len(k) < 5
+    ]
     # print(len(black))
     # print(*[(Path(i[0]).name, i[1]) for i in black],sep="\n")
-    for b in black: Path(b[0]).unlink()
+    for b in black:
+        Path(b[0]).unlink()
 elif sys.argv[1] == "compare":
     # a=Image.open(path/"songthumb1/07_08.png")
     # b=Image.open(path/"songthumb2/01_07.png")
@@ -48,37 +83,45 @@ elif sys.argv[1] == "compare":
     # print(max([i[1][0] for i in diff]),max([i[1][1] for i in diff]),max([i[1][2] for i in diff]),max([i[1][3] for i in diff]))
     # input()
     if arg2 == "mv":
-        images1 = [Image.open(i) for i in (path/"mvthumb1").iterdir()]
-        images2 = [Image.open(i) for i in (path/"mvthumb2").iterdir()]
-        comp,thumb1,thumb2 = "mvcomp","mvthumb1","mvthumb2"
+        images1 = [Image.open(i) for i in (path / "mvthumb1").iterdir()]
+        images2 = [Image.open(i) for i in (path / "mvthumb2").iterdir()]
+        comp, thumb1, thumb2 = "mvcomp", "mvthumb1", "mvthumb2"
     if arg2 == "song":
-        images1 = [Image.open(i) for i in (path/"songthumb1").iterdir()]
-        images2 = [Image.open(i) for i in (path/"songthumb2").iterdir()]
-        comp,thumb1,thumb2 = "songcomp","songthumb1","songthumb2"
+        images1 = [Image.open(i) for i in (path / "songthumb1").iterdir()]
+        images2 = [Image.open(i) for i in (path / "songthumb2").iterdir()]
+        comp, thumb1, thumb2 = "songcomp", "songthumb1", "songthumb2"
     result = []
     for img1 in images1:
-        # if img1.getcolors(): shutil.copy(img1.filename, str(path/comp))
-        for i,img2 in enumerate(images2):
-            diff = ImageChops.difference(img1,img2).getcolors(maxcolors=2048)
+        # if img1.getcolors(): shutil.copy(img1.filename, path/comp)
+        for i, img2 in enumerate(images2):
+            diff = ImageChops.difference(img1, img2).getcolors(maxcolors=2048)
             if diff:
-                maxR,maxG,maxB = max([i[1][0] for i in diff]),max([i[1][1] for i in diff]),max([i[1][2] for i in diff])
-            if diff and maxR<100 and maxG<100 and maxB<100:
+                maxR, maxG, maxB = (
+                    max([i[1][0] for i in diff]),
+                    max([i[1][1] for i in diff]),
+                    max([i[1][2] for i in diff]),
+                )
+            if diff and maxR < 100 and maxG < 100 and maxB < 100:
                 # print(len(diff))
-                stem = (path1:=Path(img1.filename)).stem
-                shutil.copy(img1.filename, str(path/comp/f"{stem}_1.png"))
-                shutil.copy(img2.filename, str(path/comp/f"{stem}_2.png"))
+                stem = (path1 := Path(img1.filename)).stem
+                shutil.copy(img1.filename, path / comp / f"{stem}_1.png")
+                shutil.copy(img2.filename, path / comp / f"{stem}_2.png")
                 result.append((path1, Path(img2.filename)))
                 images2.remove(images2[i])
                 break
     # print(*[(i[0].name, i[1].name) for i in result],sep="\n")
     print(len(result))
-    new = set((path/thumb2).iterdir())-set([i[1] for i in result])
-    rest = set((path/thumb1).iterdir())-set([i[0] for i in result])
+    new = set((path / thumb2).iterdir()) - set([i[1] for i in result])
+    rest = set((path / thumb1).iterdir()) - set([i[0] for i in result])
     print(len(new), rest)
-    (path/comp/"new").mkdir(exist_ok=True)
-    for n in new: shutil.copy(n, path/comp/"new")
+    (path / comp / "new").mkdir(exist_ok=True)
+    for n in new:
+        shutil.copy(n, path / comp / "new")
 elif sys.argv[1] == "song_pic":
-    path = Path("D:/SteamLibrary/steamapps/common/DJMAX RESPECT V/DJMAX RESPECT V_Data/StreamingAssets/Packs/assets/bundledatas/cover")
+    path = Path(
+        "D:/SteamLibrary/steamapps/common/DJMAX RESPECT V/DJMAX RESPECT V_Data/StreamingAssets/Packs/assets/bundledatas/cover"
+    )
+    # fmt: off
     songDict = {
         "2nite":              "2Nite",
         "access":             "Access",
@@ -105,6 +148,7 @@ elif sys.argv[1] == "song_pic":
         "armoredphantom":     "Armored Phantom",
         "astro":              "Astro Fight",
         "attack":             "Attack",
+        "aurora":             "Aurora Borealis",
         "axion":              "AXION",
         "bamboo":             "Bamboo on Bamboo",
         "baram":              "바람에게 부탁해",
@@ -494,6 +538,7 @@ elif sys.argv[1] == "song_pic":
         "thewheel":           "The wheel to the right",
         "thor":               "Thor",
         "thorlong":           "Thor ~Extended Mix~",
+        "tobewithyou":        "너랑 있으면",
         "toktoktok":          "Tok! Tok! Tok!",
         "trip":               "Trip",
         "triplezoe":          "Triple Zoe",
@@ -545,6 +590,7 @@ elif sys.argv[1] == "song_pic":
         "zetrmx1":            "ZET ~Mr.Funky Remix~",
         "ztth":               "Zero to the hunnit"
     }
+    # fmt: on
     for i in path.iterdir():
         if (name := i.stem.removeprefix("song_pic_f_")[:-3]) in songDict:
             if arg2 == "rename":
